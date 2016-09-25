@@ -33,9 +33,11 @@ class UserController extends Controller
     {
         //
         $input = $request->all();
-        if(User::create($input))
+        $id = User::create($input)->id;
+        if($id)
         {
-        	return response()->json(['status' => '1']);
+            $user = User::findOrFail($id);
+        	return response()->json(['status' => '1', 'user' => $user]);
         }
         return response()->json(['status' => '0']);
 
